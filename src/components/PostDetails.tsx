@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { delComment } from '../features/comments';
 import { NewCommentForm } from './NewCommentForm';
 import { Post } from '../types/Post';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const PostDetails = ({}) => {
   const [isOpenForm, setIsOpenForm] = useState(false);
@@ -14,6 +14,10 @@ export const PostDetails = ({}) => {
   const selectedPostId = useAppSelector(state => state.post);
   const posts = useAppSelector(state => state.posts.posts);
   const post = posts.find(p => p.id === selectedPostId) as Post;
+
+  useEffect(() => {
+    setIsOpenForm(false);
+  }, [selectedPostId]);
 
   return (
     <div className="content" data-cy="PostDetails">
