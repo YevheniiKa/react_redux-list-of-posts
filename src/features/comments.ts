@@ -3,16 +3,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createComment, deleteComment, getPostComments } from '../api/comments';
 import { Comment } from '../types/Comment';
 
-const initialState: State = {
-  comments: [],
-  loading: false,
-  error: '',
+type SliceState<T> = {
+  comments: T[];
+  loaded: boolean;
+  hasError: boolean;
 };
 
-type State = {
-  comments: Comment[];
-  loading: boolean;
-  error: string;
+const initialState: SliceState<Comment> = {
+  comments: [],
+  loaded: false,
+  hasError: false,
 };
 
 export const init = createAsyncThunk('comments/fetchByPost', (postId: number) =>
@@ -27,46 +27,45 @@ export const delComment = createAsyncThunk(
     return commentId;
   },
 );
+
 export const addNewComment = createAsyncThunk(
   'comments/add',
   async (comment: Omit<Comment, 'id'>) => {
     return createComment(comment);
   },
 );
+
 const commentsSlice = createSlice({
   name: 'comments',
   initialState,
-  reducers: {},
+  reducers: {
+    clearComments: state => {
+      state.comments = [];
+      state.loaded = false;
+      state.hasError = false;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(init.pending, state => {
-        state.loading = true;
+        state.loaded = false;
+        state.hasError = false;
       })
-
       .addCase(init.fulfilled, (state, action) => {
         state.comments = action.payload;
-        state.loading = false;
+        state.loaded = true;
       })
-
       .addCase(init.rejected, state => {
-        state.loading = false;
-        state.error = 'Error';
-      })
-
-      .addCase(delComment.pending, state => {
-        state.loading = true;
+        state.hasError = true;
       })
 
       .addCase(delComment.fulfilled, (state, action) => {
         state.comments = state.comments.filter(
           comment => comment.id !== action.payload,
         );
-        state.loading = false;
       })
-
       .addCase(delComment.rejected, state => {
-        state.loading = false;
-        state.error = 'Error';
+        state.hasError = true;
       })
 
       .addCase(addNewComment.fulfilled, (state, action) => {
@@ -75,5 +74,5 @@ const commentsSlice = createSlice({
   },
 });
 
-export const {} = commentsSlice.actions;
+export const { clearComments } = commentsSlice.actions;
 export default commentsSlice.reducer;

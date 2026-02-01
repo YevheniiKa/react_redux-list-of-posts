@@ -4,7 +4,6 @@ import userReducer from '../features/user';
 import postsReducer from '../features/posts';
 import postReducer from '../features/post';
 import commentsReducer from '../features/comments';
-import commentReducer from '../features/comment';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +12,6 @@ export const store = configureStore({
     posts: postsReducer,
     post: postReducer,
     comments: commentsReducer,
-    comment: commentReducer,
   },
 });
 

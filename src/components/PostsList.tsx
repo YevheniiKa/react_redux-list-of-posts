@@ -2,8 +2,7 @@
 
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setPost } from '../features/post';
-
+import { selectPost } from '../features/post';
 export const PostsList = ({}) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(state => state.posts.posts);
@@ -35,9 +34,9 @@ export const PostsList = ({}) => {
                     'is-light': post.id !== selectedPost,
                   })}
                   onClick={() => {
-                    dispatch(
-                      setPost(post.id === selectedPost ? null : post.id),
-                    );
+                    const postId = post.id === selectedPost ? null : post.id;
+
+                    dispatch(selectPost(postId));
                   }}
                 >
                   {post.id === selectedPost ? 'Close' : 'Open'}

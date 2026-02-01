@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import * as usersActions from '../features/users';
 import { setUser } from '../features/user';
+import { clearSelectedPost } from '../features/post';
 
 export const UserSelector = ({}) => {
   const [expanded, setExpanded] = useState(false);
@@ -60,6 +61,7 @@ export const UserSelector = ({}) => {
               href={`#user-${user.id}`}
               onClick={() => {
                 dispatch(setUser(user.id));
+                dispatch(clearSelectedPost());
                 setExpanded(false);
               }}
               className={classNames('dropdown-item', {

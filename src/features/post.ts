@@ -1,15 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
-const initialState: number | null = null;
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const postSlice = createSlice({
   name: 'post',
-  initialState,
+  initialState: null as number | null,
   reducers: {
-    setPost: (_state, action) => {
-      return action.payload;
-    },
+    selectPost: (_, action: PayloadAction<number | null>) => action.payload,
+    clearSelectedPost: () => null,
   },
 });
 
-export const { setPost } = postSlice.actions;
+export const { selectPost, clearSelectedPost } = postSlice.actions;
 export default postSlice.reducer;

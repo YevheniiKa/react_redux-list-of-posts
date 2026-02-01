@@ -200,7 +200,7 @@ Cypress.on('fail', e => {
 
 describe('', () => {
   beforeEach(() => {
-    if (false) Cypress.runner.stop();
+    if (failed) Cypress.runner.stop();
   });
 
   describe('Page by default', () => {
