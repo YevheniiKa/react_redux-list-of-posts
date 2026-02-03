@@ -5,14 +5,14 @@ import { getUserPosts } from '../api/posts';
 
 const initialState: State = {
   posts: [],
-  loading: false,
-  error: '',
+  loaded: false,
+  hasError: false,
 };
 
 type State = {
   posts: Post[];
-  loading: boolean;
-  error: string;
+  loaded: boolean;
+  hasError: boolean;
 };
 
 export const init = createAsyncThunk('posts/fetchByUser', (userId: number) =>
@@ -26,17 +26,19 @@ const postsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(init.pending, state => {
-        state.loading = true;
+        state.loaded = true;
+        state.hasError = false;
       })
 
       .addCase(init.fulfilled, (state, action) => {
         state.posts = action.payload;
-        state.loading = false;
+        state.loaded = false;
+        state.hasError = false;
       })
 
       .addCase(init.rejected, state => {
-        state.loading = false;
-        state.error = 'Error';
+        state.loaded = false;
+        state.hasError = true;
       });
   },
 });

@@ -18,7 +18,7 @@ export const App: React.FC = () => {
   const selectedUserId = useAppSelector(state => state.user);
   const selectedUser = users.find(u => u.id === selectedUserId);
 
-  const { posts, loading, error } = useAppSelector(state => state.posts);
+  const { posts, loaded, hasError } = useAppSelector(state => state.posts);
   const selectedPostId = useAppSelector(state => state.post);
   const selectedPost = posts.find(p => p.id === selectedPostId);
 
@@ -30,7 +30,7 @@ export const App: React.FC = () => {
     if (selectedPostId) {
       dispatch(commentsActions.init(selectedPostId));
     }
-  }, [selectedUserId, selectedPostId]);
+  }, [selectedUserId]);
 
   return (
     <main className="section">
@@ -47,9 +47,9 @@ export const App: React.FC = () => {
                   <p data-cy="NoSelectedUser">No user selected</p>
                 )}
 
-                {selectedUser && loading && <Loader />}
+                {selectedUser && loaded && <Loader />}
 
-                {selectedUser && !loading && error && (
+                {selectedUser && !loaded && hasError && (
                   <div
                     className="notification is-danger"
                     data-cy="PostsLoadingError"
@@ -58,13 +58,13 @@ export const App: React.FC = () => {
                   </div>
                 )}
 
-                {selectedUser && !loading && !error && posts.length === 0 && (
+                {selectedUser && !loaded && !hasError && posts.length === 0 && (
                   <div className="notification is-warning" data-cy="NoPostsYet">
                     No posts yet
                   </div>
                 )}
 
-                {selectedUser && !loading && !error && posts.length > 0 && (
+                {selectedUser && !loaded && !hasError && posts.length > 0 && (
                   <PostsList />
                 )}
               </div>

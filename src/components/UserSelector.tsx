@@ -7,8 +7,9 @@ import { clearSelectedPost } from '../features/post';
 
 export const UserSelector = ({}) => {
   const [expanded, setExpanded] = useState(false);
-  const users = useAppSelector(state => state.users.users);
   const dispatch = useAppDispatch();
+
+  const users = useAppSelector(state => state.users.users);
   const selectedUserId = useAppSelector(state => state.user);
   const selectedUser = users.find(u => u.id === selectedUserId);
 

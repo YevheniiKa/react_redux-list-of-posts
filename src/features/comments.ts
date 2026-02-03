@@ -70,6 +70,9 @@ const commentsSlice = createSlice({
 
       .addCase(addNewComment.fulfilled, (state, action) => {
         state.comments.push(action.payload);
+      })
+      .addCase(addNewComment.rejected, state => {
+        state.hasError = true;
       });
   },
 });
