@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { selectPost } from '../features/post';
 export const PostsList = ({}) => {
   const dispatch = useAppDispatch();
-  const posts = useAppSelector(state => state.posts.posts);
+  const posts = useAppSelector(state => state.posts.items);
   const selectedPostId = useAppSelector(state => state.post);
 
   return (

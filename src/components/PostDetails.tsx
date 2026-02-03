@@ -13,11 +13,9 @@ import { CommentData } from '../types/Comment';
 export const PostDetails = () => {
   const [visible, setVisible] = useState(false);
 
-  const { comments, loaded, hasError } = useAppSelector(
-    state => state.comments,
-  );
+  const { items, loaded, hasError } = useAppSelector(state => state.comments);
   const selectedPostId = useAppSelector(state => state.post);
-  const posts = useAppSelector(state => state.posts.posts);
+  const posts = useAppSelector(state => state.posts.items);
   const dispatch = useAppDispatch();
 
   const post = posts.find(p => p.id === selectedPostId);
@@ -54,16 +52,16 @@ export const PostDetails = () => {
           </div>
         )}
 
-        {loaded && comments.length === 0 && (
+        {loaded && items.length === 0 && (
           <p className="title is-4" data-cy="NoCommentsMessage">
             No comments yet
           </p>
         )}
 
-        {loaded && comments.length > 0 && (
+        {loaded && items.length > 0 && (
           <>
             <p className="title is-4">Comments:</p>
-            {comments.map(comment => (
+            {items.map(comment => (
               <article
                 className="message is-small"
                 key={comment.id}

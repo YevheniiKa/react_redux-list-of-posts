@@ -4,13 +4,13 @@ import { createComment, deleteComment, getPostComments } from '../api/comments';
 import { Comment } from '../types/Comment';
 
 type SliceState<T> = {
-  comments: T[];
+  items: T[];
   loaded: boolean;
   hasError: boolean;
 };
 
 const initialState: SliceState<Comment> = {
-  comments: [],
+  items: [],
   loaded: false,
   hasError: false,
 };
@@ -40,7 +40,7 @@ const commentsSlice = createSlice({
   initialState,
   reducers: {
     clearComments: state => {
-      state.comments = [];
+      state.items = [];
       state.loaded = false;
       state.hasError = false;
     },
@@ -52,7 +52,7 @@ const commentsSlice = createSlice({
         state.hasError = false;
       })
       .addCase(init.fulfilled, (state, action) => {
-        state.comments = action.payload;
+        state.items = action.payload;
         state.loaded = true;
       })
       .addCase(init.rejected, state => {
@@ -60,7 +60,7 @@ const commentsSlice = createSlice({
       })
 
       .addCase(delComment.fulfilled, (state, action) => {
-        state.comments = state.comments.filter(
+        state.items = state.items.filter(
           comment => comment.id !== action.payload,
         );
       })
@@ -69,7 +69,7 @@ const commentsSlice = createSlice({
       })
 
       .addCase(addNewComment.fulfilled, (state, action) => {
-        state.comments.push(action.payload);
+        state.items.push(action.payload);
       })
       .addCase(addNewComment.rejected, state => {
         state.hasError = true;

@@ -11,24 +11,19 @@ import { UserSelector } from './components/UserSelector';
 import { Loader } from './components/Loader';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import * as postsActions from './features/posts';
-import * as commentsActions from './features/comments';
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(state => state.users.users);
   const selectedUserId = useAppSelector(state => state.user);
   const selectedUser = users.find(u => u.id === selectedUserId);
 
-  const { posts, loaded, hasError } = useAppSelector(state => state.posts);
+  const { items, loaded, hasError } = useAppSelector(state => state.posts);
   const selectedPostId = useAppSelector(state => state.post);
-  const selectedPost = posts.find(p => p.id === selectedPostId);
+  const selectedPost = items.find(p => p.id === selectedPostId);
 
   useEffect(() => {
     if (selectedUserId) {
       dispatch(postsActions.init(selectedUserId));
-    }
-
-    if (selectedPostId) {
-      dispatch(commentsActions.init(selectedPostId));
     }
   }, [selectedUserId]);
 
@@ -58,13 +53,13 @@ export const App: React.FC = () => {
                   </div>
                 )}
 
-                {selectedUser && !loaded && !hasError && posts.length === 0 && (
+                {selectedUser && !loaded && !hasError && items.length === 0 && (
                   <div className="notification is-warning" data-cy="NoPostsYet">
                     No posts yet
                   </div>
                 )}
 
-                {selectedUser && !loaded && !hasError && posts.length > 0 && (
+                {selectedUser && !loaded && !hasError && items.length > 0 && (
                   <PostsList />
                 )}
               </div>

@@ -4,13 +4,13 @@ import { Post } from '../types/Post';
 import { getUserPosts } from '../api/posts';
 
 const initialState: State = {
-  posts: [],
+  items: [],
   loaded: false,
   hasError: false,
 };
 
 type State = {
-  posts: Post[];
+  items: Post[];
   loaded: boolean;
   hasError: boolean;
 };
@@ -31,7 +31,7 @@ const postsSlice = createSlice({
       })
 
       .addCase(init.fulfilled, (state, action) => {
-        state.posts = action.payload;
+        state.items = action.payload;
         state.loaded = false;
         state.hasError = false;
       })

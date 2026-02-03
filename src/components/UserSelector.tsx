@@ -15,6 +15,9 @@ export const UserSelector = ({}) => {
 
   useEffect(() => {
     dispatch(usersActions.init());
+  }, []);
+
+  useEffect(() => {
     if (!expanded) {
       return;
     }
@@ -28,7 +31,7 @@ export const UserSelector = ({}) => {
     return () => {
       document.removeEventListener('click', handleDocumentClick);
     };
-  }, [dispatch, expanded]);
+  }, [expanded]);
 
   return (
     <div
